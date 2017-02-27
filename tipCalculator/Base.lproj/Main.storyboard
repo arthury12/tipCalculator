@@ -58,7 +58,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                 <connections>
-                                    <action selector="billAmount:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="D4e-96-ylv"/>
                                     <action selector="calculateTip:" destination="BYZ-38-t0r" eventType="editingChanged" id="gk5-1x-IDZ"/>
                                 </connections>
                             </textField>
@@ -148,14 +147,14 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Default Tip Percentage" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EYl-gy-VnA">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tip Percentage" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EYl-gy-VnA">
                                 <rect key="frame" x="50" y="104" width="180" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="180" id="7fU-HA-UVC"/>
                                     <constraint firstAttribute="height" constant="25" id="Rt7-Xp-WRL"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pTu-yf-8KY">
@@ -168,7 +167,6 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="EYl-gy-VnA" firstAttribute="top" secondItem="5fm-3m-ubY" secondAttribute="bottom" constant="40" id="DEm-mW-mhh"/>
                             <constraint firstItem="9A5-tY-Wlc" firstAttribute="top" secondItem="pTu-yf-8KY" secondAttribute="bottom" constant="400" id="Kaf-33-KJu"/>

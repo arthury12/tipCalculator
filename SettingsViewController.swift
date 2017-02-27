@@ -8,24 +8,21 @@
 
 import UIKit
 
-let percentages = ["15%", "18%", "20%", "25%"]
-let defaults = UserDefaults.standard
-let tipKey = "tipPercentage"
 
 class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-
+    
     @IBOutlet weak var tipPercentLabel: UILabel!
     @IBOutlet weak var percentagePickerView: UIPickerView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         percentagePickerView.delegate = self
         percentagePickerView.dataSource = self
-        
-        self.view.backgroundColor = UIColor(red: 0/255, green: 178/255, blue: 0/255, alpha: 1)
-        tipPercentLabel.text = loadUserDefault(key: tipKey)
-        percentagePickerView.selectRow(percentages.index(of: loadUserDefault(key: tipKey))!, inComponent: 0, animated: true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UISetup()
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,9 +38,14 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         return percentages[row]
     }
     
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        return NSAttributedString(string: percentages[row], attributes: [NSForegroundColorAttributeName:UIColor.white])
+    }
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         tipPercentLabel.text = percentages[row]
         setUserDefault(key: tipKey, value: percentages[row])
+        NotificationCenter.default.post(name: NSNotification.Name(PICKER_SELECTED_NOTIFICATION), object: nil)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -59,19 +61,20 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         if let value = defaults.object(forKey: key) {
             return value as! String
         } else {
-            return "15%"
+            return percentages[0]
         }
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    func UISetup() {
+        percentagePickerView.selectRow(0, inComponent: 0, animated: true)
+        self.tipPercentLabel.text = percentages[0]
+        self.tipPercentLabel.textColor = UIColor.black
+        
+        UIView.animate(withDuration: 1) {
+            self.view.backgroundColor = UIColor(red: 0/255, green: 178/255, blue: 0/255, alpha: 1)
+            self.tipPercentLabel.text = self.loadUserDefault(key: tipKey)
+            self.tipPercentLabel.textColor = UIColor.white
+            self.percentagePickerView.selectRow(percentages.index(of: self.loadUserDefault(key: tipKey))!, inComponent: 0, animated: true)
+        }
     }
-    */
-
 }
