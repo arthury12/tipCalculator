@@ -10,7 +10,10 @@ import UIKit
 
 class MainViewController: UIViewController, UITextFieldDelegate {
 
-    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var billLabel: UILabel!
+    @IBOutlet weak var tipLabel: UILabel!
+    @IBOutlet weak var totalLabel: UILabel!
+    
     @IBOutlet weak var tipAmount: UILabel!
     @IBOutlet weak var totalAmount: UILabel!
     @IBOutlet weak var billField: UITextField!
@@ -20,13 +23,17 @@ class MainViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpBillField()
         setObservers()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UISetup()
+        setUpBillField()
+        if let lightTheme = utility.defaults.object(forKey: userLightTheme) as? Bool {
+            UISetup(lightTheme: lightTheme)
+        } else {
+            UISetup(lightTheme: true)
+        }
         updateTipAndTotal()
     }
     
@@ -63,20 +70,37 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func UISetup() {
-        self.tipAmount.textColor = UIColor.black
-        self.totalAmount.textColor = UIColor.black
-        self.tipControl.tintColor = UIColor.black
-        UIView.animate(withDuration: 0.8) {
-            self.tipAmount.textColor = UIColor.white
-            self.totalAmount.textColor = UIColor.white
-            self.tipControl.tintColor = UIColor.white
-            self.view.backgroundColor = UIColor(red: 0/255, green: 178/255, blue: 0/255, alpha: 1)
-        }
-        
-        self.tipControl.selectedSegmentIndex = 0
-        UIView.animate(withDuration: 4) {
-            self.tipControl.selectedSegmentIndex = percentages.index(of: self.loadUserDefault(key: tipKey))!
+    func UISetup(lightTheme: Bool) {
+        if lightTheme {
+            UIView.animate(withDuration: 0.8) {
+                self.tipLabel.textColor = UIColor.black
+                self.billLabel.textColor = UIColor.black
+                self.totalLabel.textColor = UIColor.black
+                self.tipAmount.textColor = UIColor.black
+                self.totalAmount.textColor = UIColor.black
+                self.tipControl.tintColor = UIColor.black
+                self.view.backgroundColor = UIColor(red: 0/255, green: 230/255, blue: 0/255, alpha: 1)
+            }
+            
+            self.tipControl.selectedSegmentIndex = 0
+            UIView.animate(withDuration: 4) {
+                self.tipControl.selectedSegmentIndex = percentages.index(of: self.loadUserDefault(key: tipKey))!
+            }
+        } else {
+            UIView.animate(withDuration: 0.8) {
+                self.tipLabel.textColor = UIColor.white
+                self.billLabel.textColor = UIColor.white
+                self.totalLabel.textColor = UIColor.white
+                self.tipAmount.textColor = UIColor.white
+                self.totalAmount.textColor = UIColor.white
+                self.tipControl.tintColor = UIColor.white
+                self.view.backgroundColor = UIColor(red: 0/255, green: 150/255, blue: 60/255, alpha: 1)
+            }
+            
+            self.tipControl.selectedSegmentIndex = 0
+            UIView.animate(withDuration: 4) {
+                self.tipControl.selectedSegmentIndex = percentages.index(of: self.loadUserDefault(key: tipKey))!
+            }
         }
     }
     
@@ -96,13 +120,14 @@ class MainViewController: UIViewController, UITextFieldDelegate {
     }
     
     func restoreBillAmount(appTerminated: Bool) {
-        let timeKeySaved = utility.defaults.object(forKey: backgroundTimeKey) as! TimeInterval
-        let timeDelta = NSDate().timeIntervalSince1970 - timeKeySaved
-        debugPrint ("Time since app was backgrounded: \(timeDelta) seconds")
-        if timeDelta <= tenMinutes {
-            billField.text = utility.defaults.object(forKey: billAmountKey) as! String?
-        } else {
-            billField.text = ""
+        if let timeKeySaved = utility.defaults.object(forKey: backgroundTimeKey) as? TimeInterval {
+            let timeDelta = NSDate().timeIntervalSince1970 - timeKeySaved
+            debugPrint ("Time since app was backgrounded: \(timeDelta) seconds")
+            if timeDelta <= tenMinutes {
+                billField.text = utility.defaults.object(forKey: billAmountKey) as! String?
+            } else {
+                billField.text = ""
+            }
         }
     }
     

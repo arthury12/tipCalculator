@@ -13,9 +13,10 @@ let percentages = ["15%", "18%", "20%", "25%"]
 let tipPercentages = [0.15, 0.18, 0.20, 0.25]
 
 /* user defaults */
-let tipKey = "tipPercentage"
-let billAmountKey = "billAmount"
-let backgroundTimeKey = "foregroundTime"
+let tipKey = "TIP_PERCENTAGE"
+let billAmountKey = "BILL_AMOUNT"
+let backgroundTimeKey = "BACKGROUND_TIME"
+let userLightTheme = "USER_LIGHT_THEME"
 
 /* Notification */
 let PICKER_SELECTED_NOTIFICATION = "newPickerNotification"

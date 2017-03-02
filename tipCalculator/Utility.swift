@@ -22,6 +22,11 @@ class Utility {
         defaults.synchronize()
     }
     
+    func setUserDefault(key: String, value:Bool) {
+        defaults.set(value, forKey: key)
+        defaults.synchronize()
+    }
+    
     func setNumberFormatterCurrency() {
         numberFormatter.usesGroupingSeparator = true
         numberFormatter.numberStyle = NumberFormatter.Style.currency

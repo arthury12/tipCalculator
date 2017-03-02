@@ -12,8 +12,20 @@ import UIKit
 class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var tipPercentLabel: UILabel!
+    @IBOutlet weak var tipPercentagelabel: UILabel!
     @IBOutlet weak var percentagePickerView: UIPickerView!
+    @IBOutlet weak var lightThemeLabel: UILabel!
+    @IBOutlet weak var themeLabel: UISwitch!
     let utility = Utility()
+    
+    @IBAction func themeSwitch(_ sender: UISwitch) {
+        utility.setUserDefault(key: userLightTheme, value: sender.isOn)
+        if sender.isOn {
+            UISetup(lightTheme: true)
+        } else {
+            UISetup(lightTheme: false)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +35,11 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UISetup()
+        if let lightTheme = utility.defaults.object(forKey: userLightTheme) as? Bool {
+            UISetup(lightTheme: lightTheme)
+        } else {
+            UISetup(lightTheme: true)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,16 +76,29 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         }
     }
     
-    func UISetup() {
-        percentagePickerView.selectRow(0, inComponent: 0, animated: true)
-        self.tipPercentLabel.text = percentages[0]
-        self.tipPercentLabel.textColor = UIColor.black
-        
-        UIView.animate(withDuration: 1) {
-            self.view.backgroundColor = UIColor(red: 0/255, green: 178/255, blue: 0/255, alpha: 1)
-            self.tipPercentLabel.text = self.loadUserDefault(key: tipKey)
-            self.tipPercentLabel.textColor = UIColor.white
-            self.percentagePickerView.selectRow(percentages.index(of: self.loadUserDefault(key: tipKey))!, inComponent: 0, animated: true)
+    func UISetup(lightTheme: Bool) {
+        if lightTheme {
+            self.themeLabel.setOn(true, animated: false)
+            UIView.animate(withDuration: 1) {
+                self.view.backgroundColor = UIColor(red: 0/255, green: 230/255, blue: 0/255, alpha: 1)
+                self.tipPercentLabel.text = self.loadUserDefault(key: tipKey)
+                self.tipPercentLabel.textColor = UIColor.black
+                self.tipPercentagelabel.textColor = UIColor.black
+                self.lightThemeLabel.textColor = UIColor.black
+                
+                self.percentagePickerView.selectRow(percentages.index(of: self.loadUserDefault(key: tipKey))!, inComponent: 0, animated: true)
+            }
+        } else {
+            self.themeLabel.setOn(false, animated: false)
+            UIView.animate(withDuration: 1) {
+                self.view.backgroundColor = UIColor(red: 0/255, green: 150/255, blue: 60/255, alpha: 1)
+                self.tipPercentLabel.text = self.loadUserDefault(key: tipKey)
+                self.tipPercentLabel.textColor = UIColor.white
+                self.tipPercentagelabel.textColor = UIColor.white
+                self.lightThemeLabel.textColor = UIColor.white
+                
+                self.percentagePickerView.selectRow(percentages.index(of: self.loadUserDefault(key: tipKey))!, inComponent: 0, animated: true)
+            }
         }
     }
 }
