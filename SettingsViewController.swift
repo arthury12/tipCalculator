@@ -44,17 +44,11 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         tipPercentLabel.text = percentages[row]
-        setUserDefault(key: tipKey, value: percentages[row])
-        NotificationCenter.default.post(name: NSNotification.Name(PICKER_SELECTED_NOTIFICATION), object: nil)
+        Utility().setUserDefault(key: tipKey, value: percentages[row])
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
-    }
-    
-    func setUserDefault(key: String, value:String) {
-        defaults.set(value, forKey: key)
-        defaults.synchronize()
     }
     
     func loadUserDefault(key: String) -> String {

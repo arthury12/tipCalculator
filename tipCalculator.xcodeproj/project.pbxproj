@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C345CCB1E67F41B00878830 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C345CCA1E67F41B00878830 /* Utility.swift */; };
 		8C38EDFC1E63DFFB005D6B1D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C38EDFB1E63DFFB005D6B1D /* SettingsViewController.swift */; };
 		8C38EDFF1E6402BC005D6B1D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C38EDFE1E6402BC005D6B1D /* Constants.swift */; };
 		8C7935CD1E6159690010BC42 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7935CC1E6159690010BC42 /* AppDelegate.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8C345CCA1E67F41B00878830 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		8C38EDFB1E63DFFB005D6B1D /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ../SettingsViewController.swift; sourceTree = "<group>"; };
 		8C38EDFE1E6402BC005D6B1D /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8C7935C91E6159690010BC42 /* tipCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tipCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +80,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8C345CC91E67F40E00878830 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				8C345CCA1E67F41B00878830 /* Utility.swift */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
 		8C38EDFD1E64028D005D6B1D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +120,7 @@
 		8C7935CB1E6159690010BC42 /* tipCalculator */ = {
 			isa = PBXGroup;
 			children = (
+				8C345CC91E67F40E00878830 /* Utility */,
 				8C7935FC1E6165D50010BC42 /* Model */,
 				8C7935FD1E6165DA0010BC42 /* View */,
 				8C38EDFD1E64028D005D6B1D /* Controller */,
@@ -292,6 +303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C345CCB1E67F41B00878830 /* Utility.swift in Sources */,
 				8C7935CF1E6159690010BC42 /* MainViewController.swift in Sources */,
 				8C7935CD1E6159690010BC42 /* AppDelegate.swift in Sources */,
 				8C38EDFC1E63DFFB005D6B1D /* SettingsViewController.swift in Sources */,

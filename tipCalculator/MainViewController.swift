@@ -20,9 +20,16 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         // Redundant, but practicing adding observer
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: PICKER_SELECTED_NOTIFICATION), object: nil, queue: nil) {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: APP_BACKGROUND_NOTIFICATION), object: nil, queue: nil) {
             notification in
-            self.tipControl.selectedSegmentIndex = percentages.index(of: self.loadUserDefault(key: tipKey))!
+            self.storeBillAmount()
+            print("triggered observer to store bill amount in user defaults")
+        }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: APP_FOREGROUND_NOTIFICATION), object: nil, queue: nil) {
+            notification in
+            self.restoreBillAmount()
+            print("triggered observer to RESTORE bill amount in user defaults")
         }
     }
 
@@ -76,6 +83,22 @@ class MainViewController: UIViewController {
         
         tipAmount.text = String(format: "$%.2f", tip)
         totalAmount.text = String(format: "$%.2f", total)
+    }
+    
+    func storeBillAmount() {
+        Utility().setUserDefault(key: billAmountKey, value: billField.text!)
+        Utility().setUserDefault(key: backgroundTimeKey, value: NSDate().timeIntervalSince1970)
+    }
+    
+    func restoreBillAmount() {
+        let timeKeySaved = defaults.object(forKey: backgroundTimeKey) as! TimeInterval
+        let timeDelta = NSDate().timeIntervalSince1970 - timeKeySaved
+        print ("time delta is: \(timeDelta) seconds")
+        if (timeDelta <= tenMinutes) {
+            billField.text = defaults.object(forKey: billAmountKey) as! String?
+        } else {
+            billField.text = ""
+        }
     }
 }
 
