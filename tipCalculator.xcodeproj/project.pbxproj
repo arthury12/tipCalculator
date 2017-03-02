@@ -93,6 +93,7 @@
 			children = (
 				8C38EDFB1E63DFFB005D6B1D /* SettingsViewController.swift */,
 				8C7935CE1E6159690010BC42 /* MainViewController.swift */,
+				8C7935CC1E6159690010BC42 /* AppDelegate.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -124,7 +125,6 @@
 				8C7935FC1E6165D50010BC42 /* Model */,
 				8C7935FD1E6165DA0010BC42 /* View */,
 				8C38EDFD1E64028D005D6B1D /* Controller */,
-				8C7935CC1E6159690010BC42 /* AppDelegate.swift */,
 				8C7935D31E6159690010BC42 /* Assets.xcassets */,
 				8C7935D81E6159690010BC42 /* Info.plist */,
 			);

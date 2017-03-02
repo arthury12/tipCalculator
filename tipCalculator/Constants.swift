@@ -13,7 +13,6 @@ let percentages = ["15%", "18%", "20%", "25%"]
 let tipPercentages = [0.15, 0.18, 0.20, 0.25]
 
 /* user defaults */
-let defaults = UserDefaults.standard
 let tipKey = "tipPercentage"
 let billAmountKey = "billAmount"
 let backgroundTimeKey = "foregroundTime"

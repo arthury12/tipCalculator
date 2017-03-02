@@ -13,6 +13,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     @IBOutlet weak var tipPercentLabel: UILabel!
     @IBOutlet weak var percentagePickerView: UIPickerView!
+    let utility = Utility()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +45,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         tipPercentLabel.text = percentages[row]
-        Utility().setUserDefault(key: tipKey, value: percentages[row])
+        utility.setUserDefault(key: tipKey, value: percentages[row])
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -52,7 +53,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     func loadUserDefault(key: String) -> String {
-        if let value = defaults.object(forKey: key) {
+        if let value = utility.defaults.object(forKey: key) {
             return value as! String
         } else {
             return percentages[0]

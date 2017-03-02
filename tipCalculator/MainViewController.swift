@@ -15,6 +15,7 @@ class MainViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var totalAmount: UILabel!
     @IBOutlet weak var billField: UITextField!
     @IBOutlet weak var tipControl: UISegmentedControl!
+    let utility = Utility()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +48,15 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         return false
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentCharacterCount = textField.text?.characters.count ?? 0
+        if (range.length + range.location > currentCharacterCount){
+            return false
+        }
+        let newLength = currentCharacterCount + string.characters.count - range.length
+        return newLength <= 6
+    }
+    
     @IBAction func onTap(_ sender: Any) {
         view.endEditing(true)
     }
@@ -56,7 +66,7 @@ class MainViewController: UIViewController, UITextFieldDelegate {
     }
     
     func loadUserDefault(key: String) -> String {
-        if let value = defaults.object(forKey: key) {
+        if let value = utility.defaults.object(forKey: key) {
             return value as! String
         } else {
             return percentages[0]
@@ -85,21 +95,22 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
         let total = bill + tip
         
-        tipAmount.text = String(format: "$%.2f", tip)
-        totalAmount.text = String(format: "$%.2f", total)
+        utility.setNumberFormatterCurrency()
+        tipAmount.text = utility.numberFormatter.string(from: NSNumber(value: tip))!
+        totalAmount.text = utility.numberFormatter.string(from: NSNumber(value: total))!
     }
     
     func storeBillAmount() {
-        Utility().setUserDefault(key: billAmountKey, value: billField.text!)
-        Utility().setUserDefault(key: backgroundTimeKey, value: NSDate().timeIntervalSince1970)
+        utility.setUserDefault(key: billAmountKey, value: billField.text!)
+        utility.setUserDefault(key: backgroundTimeKey, value: NSDate().timeIntervalSince1970)
     }
     
     func restoreBillAmount() {
-        let timeKeySaved = defaults.object(forKey: backgroundTimeKey) as! TimeInterval
+        let timeKeySaved = utility.defaults.object(forKey: backgroundTimeKey) as! TimeInterval
         let timeDelta = NSDate().timeIntervalSince1970 - timeKeySaved
-        print ("time delta is: \(timeDelta) seconds")
+        debugPrint ("Time since app was backgrounded: \(timeDelta) seconds")
         if (timeDelta <= tenMinutes) {
-            billField.text = defaults.object(forKey: billAmountKey) as! String?
+            billField.text = utility.defaults.object(forKey: billAmountKey) as! String?
         } else {
             billField.text = ""
         }

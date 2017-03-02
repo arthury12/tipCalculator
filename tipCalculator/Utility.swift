@@ -9,6 +9,8 @@
 import Foundation
 
 class Utility {
+    let numberFormatter = NumberFormatter()
+    let defaults = UserDefaults.standard
     
     func setUserDefault(key: String, value:String) {
         defaults.set(value, forKey: key)
@@ -18,5 +20,11 @@ class Utility {
     func setUserDefault(key: String, value:TimeInterval) {
         defaults.set(value, forKey: key)
         defaults.synchronize()
+    }
+    
+    func setNumberFormatterCurrency() {
+        numberFormatter.usesGroupingSeparator = true
+        numberFormatter.numberStyle = NumberFormatter.Style.currency
+        numberFormatter.locale = NSLocale.current
     }
 }
