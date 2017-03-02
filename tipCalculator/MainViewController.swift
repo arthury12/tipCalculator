@@ -20,24 +20,14 @@ class MainViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Redundant, but practicing adding observer
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: APP_BACKGROUND_NOTIFICATION), object: nil, queue: nil) {
-            notification in
-            self.storeBillAmount()
-        }
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: APP_FOREGROUND_NOTIFICATION), object: nil, queue: nil) {
-            notification in
-            self.restoreBillAmount()
-        }
+        setUpBillField()
+        setObservers()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UISetup()
         updateTipAndTotal()
-        billField.becomeFirstResponder()
-        billField.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
@@ -105,15 +95,38 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         utility.setUserDefault(key: backgroundTimeKey, value: NSDate().timeIntervalSince1970)
     }
     
-    func restoreBillAmount() {
+    func restoreBillAmount(appTerminated: Bool) {
         let timeKeySaved = utility.defaults.object(forKey: backgroundTimeKey) as! TimeInterval
         let timeDelta = NSDate().timeIntervalSince1970 - timeKeySaved
         debugPrint ("Time since app was backgrounded: \(timeDelta) seconds")
-        if (timeDelta <= tenMinutes) {
+        if timeDelta <= tenMinutes {
             billField.text = utility.defaults.object(forKey: billAmountKey) as! String?
         } else {
             billField.text = ""
         }
+    }
+    
+    func setObservers() {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: APP_BACKGROUND_NOTIFICATION), object: nil, queue: nil) {
+            notification in
+            self.storeBillAmount()
+        }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: APP_FOREGROUND_NOTIFICATION), object: nil, queue: nil) {
+            notification in
+            self.restoreBillAmount(appTerminated: false)
+        }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: APP_TERMINATE_NOTIFICATION), object: nil, queue: nil) {
+            notification in
+            self.storeBillAmount()
+        }
+    }
+    
+    func setUpBillField() {
+        billField.becomeFirstResponder()
+        billField.delegate = self
+        restoreBillAmount(appTerminated: true)
     }
 }
 
