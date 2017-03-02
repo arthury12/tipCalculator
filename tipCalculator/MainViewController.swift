@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var tipAmount: UILabel!
@@ -23,13 +23,11 @@ class MainViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: APP_BACKGROUND_NOTIFICATION), object: nil, queue: nil) {
             notification in
             self.storeBillAmount()
-            print("triggered observer to store bill amount in user defaults")
         }
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: APP_FOREGROUND_NOTIFICATION), object: nil, queue: nil) {
             notification in
             self.restoreBillAmount()
-            print("triggered observer to RESTORE bill amount in user defaults")
         }
     }
 
@@ -37,10 +35,16 @@ class MainViewController: UIViewController {
         super.viewWillAppear(animated)
         UISetup()
         updateTipAndTotal()
+        billField.becomeFirstResponder()
+        billField.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        return false
     }
     
     @IBAction func onTap(_ sender: Any) {
